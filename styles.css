@@ -1,0 +1,186 @@
+/* 
+ * Custom styles for Solar Lead Generation Dashboard
+ */
+
+/* Sidebar styles */
+#sidebar {
+    min-height: 100vh;
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+}
+
+#sidebar .nav-link {
+    color: #ced4da;
+    padding: 0.75rem 1rem;
+    font-weight: 500;
+    border-radius: 0.25rem;
+    margin-bottom: 0.25rem;
+}
+
+#sidebar .nav-link:hover {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+#sidebar .nav-link.active {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Dashboard cards */
+.card {
+    margin-bottom: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.card-header {
+    background-color: rgba(0, 0, 0, 0.03);
+    font-weight: 500;
+}
+
+/* Score badges */
+.badge {
+    font-size: 0.9rem;
+    padding: 0.35em 0.65em;
+}
+
+/* Heat map legend */
+.heat-map-legend div {
+    border-radius: 3px;
+    margin-right: 5px;
+}
+
+/* Table styles */
+.table-responsive {
+    overflow-x: auto;
+}
+
+.table th {
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* Form controls */
+.form-range {
+    height: 1.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767.98px) {
+    #sidebar {
+        min-height: auto;
+    }
+    
+    .card-header-tabs {
+        margin-right: 0;
+        margin-left: 0;
+    }
+    
+    .btn-group {
+        display: flex;
+        flex-wrap: wrap;
+    }
+}
+
+/* Lead detail modal */
+.modal-xl {
+    max-width: 1140px;
+}
+
+/* Progress bars */
+.progress {
+    height: 0.8rem;
+    margin-top: 0.25rem;
+}
+
+/* Map container */
+#heatMap, #propertyMap {
+    border-radius: 0.25rem;
+    border: 1px solid #dee2e6;
+}
+
+/* Custom colors for lead scores */
+.score-excellent {
+    background-color: #28a745;
+}
+
+.score-good {
+    background-color: #17a2b8;
+}
+
+.score-average {
+    background-color: #ffc107;
+}
+
+.score-poor {
+    background-color: #dc3545;
+}
+
+/* Utility provider badges */
+.provider-badge {
+    display: inline-block;
+    padding: 0.25em 0.6em;
+    font-size: 0.75em;
+    font-weight: 700;
+    border-radius: 0.25rem;
+}
+
+.provider-austin {
+    background-color: #8bc34a;
+    color: #fff;
+}
+
+.provider-centerpoint {
+    background-color: #ff9800;
+    color: #fff;
+}
+
+.provider-oncor {
+    background-color: #03a9f4;
+    color: #fff;
+}
+
+.provider-cps {
+    background-color: #9c27b0;
+    color: #fff;
+}
+
+/* Animations for page transitions */
+.content-section {
+    transition: opacity 0.3s ease-in-out;
+}
+
+.content-section.d-none {
+    opacity: 0;
+}
+
+.content-section:not(.d-none) {
+    opacity: 1;
+}
+
+/* Custom tooltip styles */
+.tooltip-inner {
+    max-width: 200px;
+    padding: 0.5rem;
+    background-color: #343a40;
+    border-radius: 0.25rem;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}

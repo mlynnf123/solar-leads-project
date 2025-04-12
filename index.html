@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar Lead Generation Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <div class="text-center mb-4">
+                        <h5 class="text-white">Solar Lead Generator</h5>
+                    </div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" id="dashboard-link">
+                                <i class="fas fa-tachometer-alt me-2"></i>
+                                Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="leads-link">
+                                <i class="fas fa-user-check me-2"></i>
+                                Leads
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="map-link">
+                                <i class="fas fa-map-marked-alt me-2"></i>
+                                Heat Map
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="import-link">
+                                <i class="fas fa-file-import me-2"></i>
+                                Import Data
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="settings-link">
+                                <i class="fas fa-cog me-2"></i>
+                                Settings
+                            </a>
+                        </li>
+                    </ul>
+                    <hr class="text-white">
+                    <div class="px-3 text-white-50">
+                        <small>© 2025 Solar Lead Generator</small>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Main content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Dashboard</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <div class="btn-group me-2">
+                            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary">Print</button>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+                            <i class="fas fa-calendar me-1"></i>
+                            This Month
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Dashboard content -->
+                <div id="dashboard-content" class="content-section">
+                    <!-- Summary cards -->
+                    <div class="row mb-4">
+                        <div class="col-md-3">
+                            <div class="card text-white bg-primary">
+                                <div class="card-body">
+                                    <h5 class="card-title">Total Leads</h5>
+                                    <p class="card-text display-6">247</p>
+                                    <p class="card-text"><small>+12% from last month</small></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card text-white bg-success">
+                                <div class="card-body">
+                                    <h5 class="card-title">Qualified Leads</h5>
+                                    <p class="card-text display-6">128</p>
+                                    <p class="card-text"><small>51.8% qualification rate</small></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card text-white bg-warning">
+                                <div class="card-body">
+                                    <h5 class="card-title">Avg. Bill Size</h5>
+                                    <p class="card-text display-6">$187</p>
+                                    <p class="card-text"><small>+$23 from last month</small></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card text-white bg-info">
+                                <div class="card-body">
+                                    <h5 class="card-title">Avg. Lead Score</h5>
+                                    <p class="card-text display-6">72</p>
+                                    <p class="card-text"><small>+3 points from last month</small></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Charts row -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    Lead Quality Distribution
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="leadQualityChart" height="250"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    Monthly Lead Acquisition
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="leadAcquisitionChart" height="250"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Top leads table -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            Top Qualified Leads
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Address</th>
+                                            <th>Score</th>
+                                            <th>Est. Bill</th>
+                                            <th>Roof Suitability</th>
+                                            <th>System Size</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>John Smith</td>
+                                            <td>123 Main St, Austin, TX 78701</td>
+                                            <td><span class="badge bg-success">92</span></td>
+                                            <td>$245</td>
+                                            <td>Excellent</td>
+                                            <td>8.5 kW</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary">View</button>
+                                                <button class="btn btn-sm btn-outline-success">Contact</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Maria Garcia</td>
+                                            <td>456 Oak Ave, Houston, TX 77002</td>
+                                            <td><span class="badge bg-success">88</span></td>
+                                            <td>$210</td>
+                                            <td>Good</td>
+                                            <td>7.2 kW</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary">View</button>
+                                                <button class="btn btn-sm btn-outline-success">Contact</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Robert Johnson</td>
+                                            <td>789 Pine Ln, Dallas, TX 75201</td>
+                                            <td><span class="badge bg-success">85</span></td>
+                                            <td>$195</td>
+                                            <td>Excellent</td>
+                                            <td>6.8 kW</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary">View</button>
+                                                <button class="btn btn-sm btn-outline-success">Contact</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Sarah Williams</td>
+                                            <td>321 Cedar Rd, San Antonio, TX 78205</td>
+                                            <td><span class="badge bg-success">82</span></td>
+                                            <td>$230</td>
+                                            <td>Good</td>
+                                            <td>9.1 kW</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary">View</button>
+                                                <button class="btn btn-sm btn-outline-success">Contact</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Michael Brown</td>
+                                            <td>654 Elm St, Austin, TX 78704</td>
+                                            <td><span class="badge bg-success">80</span></td>
+                                            <td>$185</td>
+                                            <td>Good</td>
+                                            <td>6.5 kW</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary">View</button>
+                                                <button class="btn btn-sm btn-outline-success">Contact</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Leads content -->
+                <div id="leads-content" class="content-section d-none">
+                    <div class="row mb-3">
+                        <div class="col-md-8">
+                            <h3>Lead Management</h3>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search leads...">
+                                <button class="btn btn-outline-secondary" type="button">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <ul class="nav nav-tabs card-header-tabs">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="#">All Leads</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">Excellent</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">Good</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">Average</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">Poor</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-4 text-end">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary">
+                                            <i class="fas fa-filter me-1"></i> Filter
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary">
+                                            <i class="fas fa-sort me-1"></i> Sort
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary">
+                                            <i class="fas fa-download me-1"></i> Export
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>
+         
+(Content truncated due to size limit. Use line ranges to read in chunks)
